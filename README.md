@@ -2,7 +2,7 @@
 
 A beautiful, responsive weather application built with React and Tailwind CSS that displays current weather conditions for any city worldwide.
 
-![Weather Reporter Screenshot](./public/creenshot_1.png) 
+![Weather Reporter Screenshot](./public/Screenshot_1.png) 
 
 ## Features ✨
 
