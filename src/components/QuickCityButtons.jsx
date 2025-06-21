@@ -1,5 +1,5 @@
 const QuickCityButtons = ({ currentCity, onCityChange }) => {
-  const cities = ['Colombo', 'Kandy', 'Galle', 'Jaffna', 'Kurunegala', 'Nuwara Eliya']
+  const cities = ['Colombo', 'Kandy', 'Galle', 'Jaffna', 'Kurunegala', 'Nuwara Eliya', 'Mathara', 'Trincomalee',]
   
   return (
     <div className="bg-white/10 backdrop-blur-md rounded-2xl p-6 mb-6 border border-white/20">
