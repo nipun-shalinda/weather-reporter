@@ -1,35 +1,55 @@
-import { useWeather } from './hooks/useWeather';
-import WeatherCard from './components/WeatherCard';
-import SearchBar from './components/SearchBar';
-import LoadingSpinner from './components/LoadingSpinner';
+import { useState, useEffect } from 'react'
+import MainWeatherDisplay from './components/MainWeatherDisplay'
+import LoadingScreen from './components/LoadingScreen'
+import ErrorScreen from './components/ErrorScreen'
 
 function App() {
-  const { weather, loading, error, fetchWeather } = useWeather();
+  const [weatherData, setWeatherData] = useState(null)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
+  const [currentCity, setCurrentCity] = useState('Colombo')
+  const [lastUpdated, setLastUpdated] = useState(null)
 
-  const handleSearch = (location) => {
-    fetchWeather(location);
-  };
+  const fetchWeatherData = async (city = 'Colombo') => {
+    setLoading(true)
+    setError(null)
+    
+    try {
+      const API_KEY = import.meta.env.VITE_WEATHER_API_KEY
+      const response = await fetch(
+        `https://api.weatherapi.com/v1/current.json?key=${API_KEY}&q=${city}&aqi=yes`
+      )
+      
+      if (!response.ok) throw new Error('Weather data not found')
+      
+      const data = await response.json()
+      setWeatherData(data)
+      setCurrentCity(data.location.name)
+      setLastUpdated(new Date())
+    } catch (err) {
+      setError(err.message)
+      console.error('Error fetching weather:', err)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  useEffect(() => {
+    fetchWeatherData()
+  }, [])
+
+  if (loading) return <LoadingScreen />
+  if (error) return <ErrorScreen error={error} onRetry={() => fetchWeatherData()} />
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-blue-50 to-blue-100 p-4">
-      <div className="max-w-md mx-auto">
-        <h1 className="text-3xl font-bold text-center text-blue-800 my-6">
-          Weather Reporter
-        </h1>
-        
-        <SearchBar onSearch={handleSearch} />
-        
-        {loading ? (
-          <LoadingSpinner />
-        ) : error ? (
-          <div className="text-red-500 text-center my-4">{error}</div>
-        ) : (
-          weather && <WeatherCard weather={weather} />
-        )}
-      </div>
-    </div>
-    
-  );
+    <MainWeatherDisplay 
+      weatherData={weatherData}
+      currentCity={currentCity}
+      lastUpdated={lastUpdated}
+      onRefresh={() => fetchWeatherData(currentCity)}
+      onCityChange={fetchWeatherData}
+    />
+  )
 }
 
-export default App;
+export default App

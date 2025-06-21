@@ -1,26 +1,25 @@
-import { WiDaySunny, WiRain, WiCloudy, WiSnow, WiThunderstorm, WiFog } from 'react-icons/wi';
+import { Sun, Cloud, CloudRain, CloudSnow, Zap } from 'lucide-react'
 
-const WeatherIcon = ({ condition }) => {
-  const getIcon = () => {
-    const conditionText = condition.toLowerCase();
-    
-    if (conditionText.includes('sunny') || conditionText.includes('clear')) {
-      return <WiDaySunny className="text-5xl text-yellow-500" />;
-    } else if (conditionText.includes('rain')) {
-      return <WiRain className="text-5xl text-blue-500" />;
-    } else if (conditionText.includes('cloud')) {
-      return <WiCloudy className="text-5xl text-gray-500" />;
-    } else if (conditionText.includes('snow')) {
-      return <WiSnow className="text-5xl text-blue-200" />;
-    } else if (conditionText.includes('thunder') || conditionText.includes('storm')) {
-      return <WiThunderstorm className="text-5xl text-purple-500" />;
-    } else if (conditionText.includes('fog') || conditionText.includes('mist')) {
-      return <WiFog className="text-5xl text-gray-400" />;
-    }
-    return <WiDaySunny className="text-5xl text-yellow-500" />;
-  };
+const WeatherIcon = ({ condition, isDay }) => {
+  const conditionLower = condition.toLowerCase()
+  
+  if (conditionLower.includes('sunny') || conditionLower.includes('clear')) {
+    return isDay ? <Sun className="w-16 h-16 text-yellow-400" /> : <div className="w-16 h-16 rounded-full bg-gray-300 border-4 border-gray-400"></div>
+  }
+  else if (conditionLower.includes('cloud')) {
+    return <Cloud className="w-16 h-16 text-gray-400" />
+  }
+  else if (conditionLower.includes('rain') || conditionLower.includes('drizzle')) {
+    return <CloudRain className="w-16 h-16 text-blue-400" />
+  }
+  else if (conditionLower.includes('snow')) {
+    return <CloudSnow className="w-16 h-16 text-blue-200" />
+  }
+  else if (conditionLower.includes('thunder') || conditionLower.includes('storm')) {
+    return <Zap className="w-16 h-16 text-purple-400" />
+  }
+  
+  return <Cloud className="w-16 h-16 text-gray-400" />
+}
 
-  return getIcon();
-};
-
-export default WeatherIcon;
+export default WeatherIcon
