@@ -45,4 +45,4 @@ A beautiful, responsive weather application built with React and Tailwind CSS th
 ## Live Demo 🌐
 
 Experience the Weather Reporter live:  
-🔗 [https://weather.netlify.app/](https://weather.netlify.app/)
+🔗 [https://weather-reporter-nsh.netlify.app](https://weather-reporter-nsh.netlify.app)
